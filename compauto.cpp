@@ -139,7 +139,7 @@ int main(int argc, char *argv[]){
     #elif __linux__
         OperatingSystem = "Linux";
     #elif __APPLE__
-        OperatingSystem = "MacOS"
+        OperatingSystem = "MacOS";
     #endif
 
     if (args[1] == "pickcomp") {

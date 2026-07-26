@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "g++",
             "includePath": [
                 "${workspaceFolder}/**",
                 "${vcpkgRoot}/x64-mingw-dynamic/include",
@@ -17,7 +17,37 @@
             "cStandard": "c23",
             "cppStandard": "c++23",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "Macg++",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/opt/homebrew/opt/gcc/bin/g++-16",
+            "cStandard": "c23",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "macos-gcc-x64"
+        },
+        {
+            "name": "clang",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/opt/homebrew/opt/llvm/bin/clang++",
+            "cStandard": "c23",
+            "cppStandard": "c++23"
         }
+        
     ],
     "version": 4
 }
