@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <regex>
-
+#include 
 
 /*
 
@@ -17,7 +17,7 @@
                       
 
     COmpileAuTo
-    Version: 0.1.0
+    Version: 0.1.1
     Author: OrangeJuiceGuy (ojg1)
     Required: a operating system
 
@@ -40,6 +40,12 @@ struct keywTypes {
     string Path;
     string ProgramLangSupport;
     bool Found;
+};
+
+struct COATConfig {
+    string CurrentCompiler;
+    string Language;
+
 };
 
 void ParsePathCompiler(string os,  unordered_map<string,keywTypes> &comps) {
@@ -154,12 +160,17 @@ int main(int argc, char *argv[]){
         for (const auto& [key,value] : comps) {
             if (value.Found) {
                 available.push_back(key);
-                cout >> "[" + std::to_string(i) + "] " + value.FileAlias + " (" + value.Alias + ")";
+                cout << "[" << std::to_string(i) << "] " << value.FileAlias << " (" << value.Alias << ")\n";
             };
         };
 
-
+        cout << ":";
+   
+        int choice;
+        cin >> choice;
         
+
+
     };
 
     return 0;
