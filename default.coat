@@ -2,9 +2,17 @@
 Unless you know what you are doing, try not to alter this file. To properly configure this file, please use
 coat or compileauto.
 
+compileauto commands
+-   coat run
+-   coat compile 
+-   coat slang
+-   coat scomp
+-   coat slib
+
 ^S
 CurrentCompiler:None
-SearchCompilerMethod:None
 Language:None
+
+SearchCompilerMethod:None
 
 ^E
