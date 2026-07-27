@@ -12,6 +12,9 @@ compileauto commands
 ^S
 CurrentCompiler:None
 Language:None
+D!Libraries
+^LS
+^LE
 
 SearchCompilerMethod:None
 

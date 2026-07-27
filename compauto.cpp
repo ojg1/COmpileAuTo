@@ -48,77 +48,69 @@ struct COATConfig {
 
 };
 
-void ParsePathCompiler(string os,  unordered_map<string,keywTypes> &comps) {
-
-    if (os == "Windows") {
-
-        unordered_map<string,keywTypes> keyc = {
-            {"gcc.exe",   {"GNU Compiler Collection",           "gcc",      "N/A", "N/A", "C, Universal",                                   false}},
-            {"g++.exe",   {"GNU C++ Compiler",                  "g++",      "N/A", "N/A", "C++",                                            false}},
-            {"clang.exe", {"C Language Family Frontend",        "clang",    "N/A", "N/A", "Variants of C, C++ (including objective-c<++>)", false}},
-            {"msvc.exe",  {"Microsoft Visual C++ Compiler",     "cl",       "N/A", "N/A", "C++",                                            false}},
-            {"nvcc.exe",  {"NVIDIA Cuda Compiler",              "nvcc",     "N/A", "N/A", "C++/CUDA",                                       false}}
-        };
-
-        vector<string> ekeyc = {
-            "gcc.exe",
-            "g++.exe",
-            "clang.exe",
-            "cl.exe",
-            "nvcc.exe"
-        };
+void ParsePathCompiler(string &os,  unordered_map<string,keywTypes> &comps) {
 
 
-        string WinPath = std::getenv("PATH");
-        string seperator = ";";
+    unordered_map<string,keywTypes> keyc = {
+        {"gcc.exe",   {"GNU Compiler Collection",           "gcc",      "N/A", "N/A", "C, Universal",                                   false}},
+        {"g++.exe",   {"GNU C++ Compiler",                  "g++",      "N/A", "N/A", "C++",                                            false}},
+        {"clang.exe", {"C Language Family Frontend",        "clang",    "N/A", "N/A", "Variants of C, C++ (including objective-c<++>)", false}},
+        {"msvc.exe",  {"Microsoft Visual C++ Compiler",     "cl",       "N/A", "N/A", "C++",                                            false}},
+        {"nvcc.exe",  {"NVIDIA Cuda Compiler",              "nvcc",     "N/A", "N/A", "C++/CUDA",                                       false}}
+    };
 
-        auto split_view = WinPath | std::views::split(seperator);
-        vector<string> pathVars = split_view | std::ranges::to<vector<string>>();
+    vector<string> ekeyc = {
+        "gcc.exe",
+        "g++.exe",
+        "clang.exe",
+        "cl.exe",
+        "nvcc.exe"
+    };
 
-        for (const auto &dir : pathVars) {
-            if (std::filesystem::exists(dir) && std::filesystem::is_directory(dir)) {
-                for (const auto &entry : std::filesystem::directory_iterator(dir)) {
+    string osPath = std::getenv("PATH");
+    string seperator = ";";
 
-                    string filename = entry.path().filename().string();
+    auto split_view = osPath | std::views::split(seperator);
+    vector<string> pathVars = split_view | std::ranges::to<vector<string>>();
 
-                    if (std::find(ekeyc.begin(), ekeyc.end(), filename) == ekeyc.end()) {
+    for (const auto &dir : pathVars) {
+        if (std::filesystem::exists(dir) && std::filesystem::is_directory(dir)) {
+            for (const auto &entry : std::filesystem::directory_iterator(dir)) {
 
-                        keyc[filename].FileAlias = filename;
-                        keyc[filename].Path = entry.path().parent_path().string() + filename;
-                        keyc[filename].Found = true;
+                string filename = entry.path().filename().string();
 
-                        string pathComm = keyc[filename].Path + "--version";
+                if (std::find(ekeyc.begin(), ekeyc.end(), filename) == ekeyc.end()) {
 
-                        string result = "";
-                        char buffer[128];
+                    keyc[filename].FileAlias = filename;
+                    keyc[filename].Path = entry.path().parent_path().string() + filename;
+                    keyc[filename].Found = true;
 
-                        FILE* output = _popen(pathComm.c_str(), "r");
+                    string pathComm = keyc[filename].Path + "--version";
 
-                        while (fgets(buffer, sizeof(buffer), output) != nullptr) {
-                            result += buffer;
-                        };
+                    string result = "";
+                    char buffer[128];
 
-                        regex p("\d+\.\d+(\.\d+)*");
-                        smatch match;
+                
+                    FILE* output = _popen(pathComm.c_str(), "r");
 
-                        if (std::regex_match(result, match, p)) {
-                            keyc[filename].Version = match[0];
-                        };
+                    while (fgets(buffer, sizeof(buffer), output) != nullptr) {
+                        result += buffer;
+                    };
 
+                    regex p("\d+\.\d+(\.\d+)*");
+                    smatch match;
+
+                    if (std::regex_match(result, match, p)) {
+                        keyc[filename].Version = match[0];
                     };
 
                 };
+
             };
         };
-
-        comps = keyc;
-
-    } else if (os == "Linux") {
-
-    } else if (os == "MacOS") {
-
     };
 
+    comps = keyc;
     return;
 };  
 
@@ -134,6 +126,8 @@ int main(int argc, char *argv[]){
     string SelectedLanguage = "detectFileExtension";
     string SearchCompilerMethod = "fullFilename";
     string CurrentCompiler = "";
+
+    //temp vars
     string OperatingSystem = "";
 
     string RunString = "";
