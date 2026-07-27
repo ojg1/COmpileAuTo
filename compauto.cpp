@@ -17,7 +17,7 @@
                       
 
     COmpileAuTo
-    Version: 0.1.1
+    Version: 0.1.2
     Author: OrangeJuiceGuy (ojg1)
     Required: a operating system
 
